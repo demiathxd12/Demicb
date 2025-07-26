@@ -4,40 +4,62 @@ Una tienda online moderna y completa para venta de ropa, desarrollada con Node.j
 
 ## ✨ Características
 
-- **Catálogo de productos** con filtros avanzados y búsqueda
-- **Sistema de carrito** con gestión de sesiones
-- **Autenticación de usuarios** con registro y login
-- **Proceso de checkout** completo
-- **Panel de administración** para gestión de productos
-- **Diseño responsive** adaptado a todos los dispositivos
-- **Seguridad avanzada** con bcrypt, helmet y rate limiting
-- **Base de datos MySQL** con esquema completo
+- **Arquitectura modular** con patrones MVC y Repository
+- **Catálogo de productos** con filtros avanzados y búsqueda full-text
+- **Sistema de carrito** inteligente con gestión de sesiones y fusión automática
+- **Autenticación robusta** con validaciones y rate limiting
+- **Validación completa** de datos en frontend y backend
+- **Manejo de errores** avanzado con logging detallado
+- **Pool de conexiones** MySQL para mejor rendimiento
+- **Seguridad de nivel empresarial** con múltiples capas de protección
+- **API REST** completa para funcionalidades AJAX
+- **Código limpio** con TypeScript-like patterns y documentación
 
 ## 🏗️ Estructura del Proyecto
 
 ```
 mi-tienda-online/
-├── server.js                 # Servidor principal Express
-├── package.json              # Dependencias y scripts
-├── .env                      # Variables de entorno
-├── .gitignore               # Archivos a ignorar por Git
+├── app.js                   # Aplicación principal mejorada
+├── server.js                # Servidor original (legacy)
+├── package.json             # Dependencias y scripts
+├── .env                     # Variables de entorno
 ├── schema.sql               # Schema de la base de datos
+├── src/                     # Código fuente modular
+│   ├── config/              # Configuraciones
+│   │   └── database.js      # Pool de conexiones MySQL
+│   ├── models/              # Modelos de datos (Patrón Repository)
+│   │   ├── BaseModel.js     # Modelo base con CRUD genérico
+│   │   ├── Product.js       # Modelo de productos
+│   │   ├── User.js          # Modelo de usuarios
+│   │   ├── Cart.js          # Modelo de carrito
+│   │   └── Category.js      # Modelo de categorías
+│   ├── controllers/         # Controladores (Lógica de negocio)
+│   │   ├── ProductController.js
+│   │   ├── UserController.js
+│   │   └── CartController.js
+│   ├── middleware/          # Middleware personalizado
+│   │   ├── auth.js          # Autenticación y autorización
+│   │   ├── setup.js         # Configuración de middleware
+│   │   └── cart.js          # Middleware del carrito
+│   ├── routes/              # Rutas organizadas
+│   │   ├── web.js           # Rutas web (vistas)
+│   │   └── api.js           # Rutas API (JSON)
+│   └── utils/               # Utilidades
+│       ├── asyncHandler.js  # Manejo de errores async
+│       └── validation.js    # Validaciones y sanitización
 ├── public/                  # Archivos estáticos
-│   ├── css/
-│   │   └── styles.css       # Estilos principales
-│   ├── js/
-│   │   └── main.js          # JavaScript del frontend
-│   ├── images/              # Imágenes del sitio
-│   └── uploads/             # Imágenes subidas
-├── views/                   # Plantillas EJS
-│   ├── layout.ejs          # Layout principal
-│   ├── index.ejs           # Página de inicio
-│   ├── productos.ejs       # Catálogo de productos
-│   ├── carrito.ejs         # Carrito de compras
-│   ├── login.ejs           # Página de login
-│   ├── registro.ejs        # Página de registro
-│   ├── exito.ejs           # Página de compra exitosa
-│   └── cancelado.ejs       # Página de compra cancelada
+│   ├── css/styles.css       # Estilos mejorados
+│   ├── js/main.js           # JavaScript del frontend
+│   └── uploads/             # Archivos subidos
+└── views/                   # Plantillas EJS
+    ├── layout.ejs           # Layout principal
+    ├── index.ejs            # Página de inicio
+    ├── productos.ejs        # Catálogo de productos
+    ├── carrito.ejs          # Carrito de compras
+    ├── login.ejs            # Página de login
+    ├── registro.ejs         # Página de registro
+    ├── exito.ejs            # Página de compra exitosa
+    └── cancelado.ejs        # Página de compra cancelada
 ```
 
 ## 🚀 Instalación y Configuración
@@ -86,11 +108,14 @@ mi-tienda-online/
 
 5. **Iniciar el servidor**
    ```bash
-   # Desarrollo
+   # Desarrollo con la nueva arquitectura
    npm run dev
    
-   # Producción
+   # Producción con app.js mejorada
    npm start
+   
+   # Servidor original (legacy)
+   node server.js
    ```
 
 6. **Acceder a la aplicación**
