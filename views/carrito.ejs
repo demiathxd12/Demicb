@@ -1,0 +1,115 @@
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Mi Carrito de Compras</h1>
+        
+        <% if (carrito && carrito.length > 0) { %>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start;">
+                <!-- Items del carrito -->
+                <div class="cart-items">
+                    <% carrito.forEach(item => { %>
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                <% if (item.imagen_principal) { %>
+                                    <img src="<%= item.imagen_principal %>" alt="<%= item.nombre %>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <% } else { %>
+                                    <i class="fas fa-image"></i>
+                                <% } %>
+                            </div>
+                            
+                            <div class="cart-item-info">
+                                <h4><%= item.nombre %></h4>
+                                <div class="cart-item-details">
+                                    <% if (item.talla) { %>
+                                        <p><strong>Talla:</strong> <%= item.talla %></p>
+                                    <% } %>
+                                    <% if (item.color) { %>
+                                        <p><strong>Color:</strong> <%= item.color %></p>
+                                    <% } %>
+                                    <p><strong>Precio unitario:</strong> $<%= item.precio_unitario.toFixed(2) %></p>
+                                </div>
+                            </div>
+                            
+                            <div class="quantity-selector">
+                                <button type="button" class="quantity-btn quantity-minus">-</button>
+                                <input type="number" class="quantity-input cart-quantity-input" 
+                                       value="<%= item.cantidad %>" min="1" max="99" 
+                                       data-item-id="<%= item.id %>">
+                                <button type="button" class="quantity-btn quantity-plus">+</button>
+                            </div>
+                            
+                            <div style="text-align: right;">
+                                <p><strong>$<%= (item.cantidad * item.precio_unitario).toFixed(2) %></strong></p>
+                            </div>
+                            
+                            <div>
+                                <button type="button" class="btn btn-sm remove-cart-item" 
+                                        data-item-id="<%= item.id %>" 
+                                        style="background: var(--accent-color); color: white; border: none;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+                
+                <!-- Resumen del carrito -->
+                <div class="cart-summary">
+                    <h3 style="margin-bottom: 1.5rem;">Resumen del Pedido</h3>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>$<%= totalCarrito.toFixed(2) %></span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Envío:</span>
+                        <span><%= totalCarrito >= 1000 ? 'Gratis' : '$100.00' %></span>
+                    </div>
+                    
+                    <% if (totalCarrito >= 1000) { %>
+                        <div class="summary-row" style="color: var(--success-color);">
+                            <span>Descuento envío gratis:</span>
+                            <span>-$100.00</span>
+                        </div>
+                    <% } %>
+                    
+                    <div class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span>$<%= (totalCarrito + (totalCarrito >= 1000 ? 0 : 100)).toFixed(2) %></span>
+                    </div>
+                    
+                    <% if (totalCarrito < 1000) { %>
+                        <div style="background: #e3f2fd; padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0; text-align: center;">
+                            <p style="margin: 0; color: var(--primary-color); font-size: 0.9rem;">
+                                💡 Agrega $<%= (1000 - totalCarrito).toFixed(2) %> más para obtener envío gratis
+                            </p>
+                        </div>
+                    <% } %>
+                    
+                    <div style="margin-top: 2rem;">
+                        <% if (usuario) { %>
+                            <a href="/checkout" class="btn btn-accent" style="width: 100%; text-align: center; margin-bottom: 1rem;">
+                                Proceder al Checkout
+                            </a>
+                        <% } else { %>
+                            <a href="/login?redirect=/checkout" class="btn btn-accent" style="width: 100%; text-align: center; margin-bottom: 1rem;">
+                                Iniciar Sesión para Comprar
+                            </a>
+                        <% } %>
+                        
+                        <a href="/productos" class="btn btn-outline" style="width: 100%; text-align: center;">
+                            Continuar Comprando
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div style="text-align: center; padding: 4rem 0;">
+                <i class="fas fa-shopping-cart" style="font-size: 4rem; color: var(--medium-gray); margin-bottom: 1rem;"></i>
+                <h3>Tu carrito está vacío</h3>
+                <p style="color: var(--medium-gray); margin-bottom: 2rem;">¡Agrega algunos productos increíbles!</p>
+                <a href="/productos" class="btn btn-primary btn-lg">Explorar Productos</a>
+            </div>
+        <% } %>
+    </div>
+</section>

@@ -1,0 +1,157 @@
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1>Descubre la Moda que te Define</h1>
+        <p>Encuentra las mejores prendas para cada ocasión. Calidad, estilo y comodidad en un solo lugar.</p>
+        <a href="/productos" class="btn btn-accent btn-lg">Ver Productos</a>
+    </div>
+</section>
+
+<!-- Categorías Destacadas -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Compra por Categoría</h2>
+        <p class="section-subtitle">Encuentra exactamente lo que buscas</p>
+        
+        <div class="categories-grid">
+            <% categorias.forEach(categoria => { %>
+                <a href="/productos?categoria=<%= categoria.nombre %>" class="category-card fade-in-on-scroll">
+                    <div class="category-icon">
+                        <% if (categoria.nombre === 'Camisetas') { %>
+                            <i class="fas fa-tshirt"></i>
+                        <% } else if (categoria.nombre === 'Pantalones') { %>
+                            <i class="fas fa-user-alt"></i>
+                        <% } else if (categoria.nombre === 'Vestidos') { %>
+                            <i class="fas fa-female"></i>
+                        <% } else if (categoria.nombre === 'Chaquetas') { %>
+                            <i class="fas fa-coat-arms"></i>
+                        <% } else if (categoria.nombre === 'Zapatos') { %>
+                            <i class="fas fa-shoe-prints"></i>
+                        <% } else if (categoria.nombre === 'Accesorios') { %>
+                            <i class="fas fa-hat-cowboy"></i>
+                        <% } else if (categoria.nombre === 'Deportiva') { %>
+                            <i class="fas fa-running"></i>
+                        <% } else { %>
+                            <i class="fas fa-shopping-bag"></i>
+                        <% } %>
+                    </div>
+                    <h3><%= categoria.nombre %></h3>
+                    <p><%= categoria.descripcion %></p>
+                </a>
+            <% }) %>
+        </div>
+    </div>
+</section>
+
+<!-- Productos Destacados -->
+<section class="section" style="background: var(--light-gray);">
+    <div class="container">
+        <h2 class="section-title">Productos Destacados</h2>
+        <p class="section-subtitle">Lo más popular de nuestra colección</p>
+        
+        <div class="products-grid">
+            <% productosDestacados.forEach(producto => { %>
+                <div class="product-card fade-in-on-scroll">
+                    <div class="product-image">
+                        <% if (producto.imagen_principal) { %>
+                            <img src="<%= producto.imagen_principal %>" alt="<%= producto.nombre %>" loading="lazy">
+                        <% } else { %>
+                            <i class="fas fa-image"></i>
+                        <% } %>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3 class="product-title"><%= producto.nombre %></h3>
+                        <p class="product-description"><%= producto.descripcion %></p>
+                        
+                        <div class="product-price">
+                            <% if (producto.precio_oferta) { %>
+                                <span style="text-decoration: line-through; color: var(--medium-gray); font-size: 1rem;">$<%= producto.precio.toFixed(2) %></span>
+                                <span style="color: var(--accent-color);">$<%= producto.precio_oferta.toFixed(2) %></span>
+                            <% } else { %>
+                                $<%= producto.precio.toFixed(2) %>
+                            <% } %>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="/producto/<%= producto.id %>" class="btn btn-outline btn-sm">Ver Detalles</a>
+                            
+                            <form class="add-to-cart-form" style="display: inline;">
+                                <input type="hidden" name="producto_id" value="<%= producto.id %>">
+                                <input type="hidden" name="cantidad" value="1">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-shopping-cart"></i> Agregar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/productos" class="btn btn-primary btn-lg">Ver Todos los Productos</a>
+        </div>
+    </div>
+</section>
+
+<!-- Características -->
+<section class="section">
+    <div class="container">
+        <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div class="feature-card" style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>Envío Rápido</h3>
+                <p>Entregas en 24-48 horas en área metropolitana</p>
+            </div>
+            
+            <div class="feature-card" style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <h3>Devoluciones Gratis</h3>
+                <p>30 días para cambios y devoluciones sin costo</p>
+            </div>
+            
+            <div class="feature-card" style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Compra Segura</h3>
+                <p>Pagos 100% seguros con encriptación SSL</p>
+            </div>
+            
+            <div class="feature-card" style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>Atención 24/7</h3>
+                <p>Soporte al cliente disponible todos los días</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="section" style="background: var(--primary-color); color: var(--white);">
+    <div class="container" style="text-align: center;">
+        <h2 style="color: var(--white); margin-bottom: 1rem;">¡Mantente al Día!</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+            Suscríbete a nuestro newsletter y recibe ofertas exclusivas, nuevos productos y consejos de moda.
+        </p>
+        
+        <form action="/newsletter" method="POST" style="max-width: 500px; margin: 0 auto; display: flex; gap: 1rem;">
+            <input type="email" name="email" placeholder="Tu dirección de email" required 
+                   style="flex: 1; padding: 12px; border: none; border-radius: var(--border-radius); font-size: 16px;">
+            <button type="submit" class="btn btn-accent">
+                <i class="fas fa-paper-plane"></i> Suscribirse
+            </button>
+        </form>
+        
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+            No spam, solo contenido de calidad. Puedes cancelar en cualquier momento.
+        </p>
+    </div>
+</section>

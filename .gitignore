@@ -1,0 +1,34 @@
+# Dependencias
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variables de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+
+# Archivos temporales
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de uploads (opcional, depende si quieres versionar las imágenes)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Base de datos
+*.sqlite
+*.db
+
+# Archivos de sistema
+Thumbs.db
