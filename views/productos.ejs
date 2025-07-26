@@ -1,0 +1,144 @@
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Catálogo de Productos</h1>
+        
+        <!-- Filtros -->
+        <div class="filters">
+            <form class="filters-form" method="GET" action="/productos">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Buscar</label>
+                        <input type="text" name="q" class="filter-input" placeholder="Buscar productos..." value="<%= filtros.busqueda %>">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Categoría</label>
+                        <select name="categoria" class="filter-select">
+                            <option value="">Todas las categorías</option>
+                            <% categorias.forEach(categoria => { %>
+                                <option value="<%= categoria.nombre %>" <%= filtros.categoria === categoria.nombre ? 'selected' : '' %>>
+                                    <%= categoria.nombre %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Género</label>
+                        <select name="genero" class="filter-select">
+                            <option value="">Todos</option>
+                            <option value="mujer" <%= filtros.genero === 'mujer' ? 'selected' : '' %>>Mujer</option>
+                            <option value="hombre" <%= filtros.genero === 'hombre' ? 'selected' : '' %>>Hombre</option>
+                            <option value="unisex" <%= filtros.genero === 'unisex' ? 'selected' : '' %>>Unisex</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Ordenar por</label>
+                        <select name="orden" class="filter-select">
+                            <option value="fecha_desc" <%= filtros.orden === 'fecha_desc' ? 'selected' : '' %>>Más recientes</option>
+                            <option value="precio_asc" <%= filtros.orden === 'precio_asc' ? 'selected' : '' %>>Precio: menor a mayor</option>
+                            <option value="precio_desc" <%= filtros.orden === 'precio_desc' ? 'selected' : '' %>>Precio: mayor a menor</option>
+                            <option value="nombre" <%= filtros.orden === 'nombre' ? 'selected' : '' %>>Nombre A-Z</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Resultados -->
+        <div style="margin-bottom: 2rem;">
+            <p><strong><%= paginacion.total %></strong> productos encontrados</p>
+        </div>
+        
+        <!-- Grid de productos -->
+        <% if (productos.length > 0) { %>
+            <div class="products-grid">
+                <% productos.forEach(producto => { %>
+                    <div class="product-card fade-in-on-scroll">
+                        <div class="product-image">
+                            <% if (producto.imagen_principal) { %>
+                                <img src="<%= producto.imagen_principal %>" alt="<%= producto.nombre %>" loading="lazy">
+                            <% } else { %>
+                                <i class="fas fa-image"></i>
+                            <% } %>
+                        </div>
+                        
+                        <div class="product-info">
+                            <h3 class="product-title"><%= producto.nombre %></h3>
+                            <p class="product-description"><%= producto.descripcion %></p>
+                            
+                            <div style="margin: 1rem 0;">
+                                <% if (producto.categoria_nombre) { %>
+                                    <span class="badge" style="background: var(--light-gray); color: var(--primary-color); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">
+                                        <%= producto.categoria_nombre %>
+                                    </span>
+                                <% } %>
+                                
+                                <% if (producto.genero) { %>
+                                    <span class="badge" style="background: var(--primary-color); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: 0.5rem;">
+                                        <%= producto.genero.charAt(0).toUpperCase() + producto.genero.slice(1) %>
+                                    </span>
+                                <% } %>
+                            </div>
+                            
+                            <div class="product-price">
+                                <% if (producto.precio_oferta) { %>
+                                    <span style="text-decoration: line-through; color: var(--medium-gray); font-size: 1rem;">$<%= producto.precio.toFixed(2) %></span>
+                                    <span style="color: var(--accent-color);">$<%= producto.precio_oferta.toFixed(2) %></span>
+                                <% } else { %>
+                                    $<%= producto.precio.toFixed(2) %>
+                                <% } %>
+                            </div>
+                            
+                            <div class="product-actions">
+                                <a href="/producto/<%= producto.id %>" class="btn btn-outline btn-sm">Ver Detalles</a>
+                                
+                                <form class="add-to-cart-form" style="display: inline;">
+                                    <input type="hidden" name="producto_id" value="<%= producto.id %>">
+                                    <input type="hidden" name="cantidad" value="1">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-shopping-cart"></i> Agregar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+            
+            <!-- Paginación -->
+            <% if (paginacion.totalPaginas > 1) { %>
+                <div class="pagination">
+                    <% if (paginacion.paginaActual > 1) { %>
+                        <a href="?<%= new URLSearchParams({...filtros, pagina: 1}).toString() %>" class="page-link">Primera</a>
+                        <a href="?<%= new URLSearchParams({...filtros, pagina: paginacion.paginaActual - 1}).toString() %>" class="page-link">Anterior</a>
+                    <% } %>
+                    
+                    <% for (let i = Math.max(1, paginacion.paginaActual - 2); i <= Math.min(paginacion.totalPaginas, paginacion.paginaActual + 2); i++) { %>
+                        <a href="?<%= new URLSearchParams({...filtros, pagina: i}).toString() %>" 
+                           class="page-link <%= i === paginacion.paginaActual ? 'active' : '' %>">
+                            <%= i %>
+                        </a>
+                    <% } %>
+                    
+                    <% if (paginacion.paginaActual < paginacion.totalPaginas) { %>
+                        <a href="?<%= new URLSearchParams({...filtros, pagina: paginacion.paginaActual + 1}).toString() %>" class="page-link">Siguiente</a>
+                        <a href="?<%= new URLSearchParams({...filtros, pagina: paginacion.totalPaginas}).toString() %>" class="page-link">Última</a>
+                    <% } %>
+                </div>
+            <% } %>
+        <% } else { %>
+            <div style="text-align: center; padding: 4rem 0;">
+                <i class="fas fa-search" style="font-size: 4rem; color: var(--medium-gray); margin-bottom: 1rem;"></i>
+                <h3>No se encontraron productos</h3>
+                <p style="color: var(--medium-gray);">Intenta cambiar los filtros o la búsqueda</p>
+                <a href="/productos" class="btn btn-primary" style="margin-top: 1rem;">Ver todos los productos</a>
+            </div>
+        <% } %>
+    </div>
+</section>

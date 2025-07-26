@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titulo %> - Tienda de Ropa Online</title>
+    <meta name="description" content="Tienda online de ropa moderna y de calidad. Encuentra las mejores prendas para hombre, mujer y niños.">
+    <meta name="keywords" content="ropa, tienda online, moda, vestidos, camisetas, pantalones">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <p>🚚 Envío gratis en compras mayores a $1,000 | 📞 Atención al cliente: 555-123-4567</p>
+            </div>
+        </div>
+        
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-container">
+                    <a href="/" class="logo">
+                        <i class="fas fa-tshirt"></i> MiTienda
+                    </a>
+                    
+                    <ul class="nav-menu">
+                        <li><a href="/" class="nav-link">Inicio</a></li>
+                        <li><a href="/productos" class="nav-link">Productos</a></li>
+                        <li><a href="/productos?categoria=Camisetas" class="nav-link">Camisetas</a></li>
+                        <li><a href="/productos?categoria=Pantalones" class="nav-link">Pantalones</a></li>
+                        <li><a href="/productos?categoria=Vestidos" class="nav-link">Vestidos</a></li>
+                        <li><a href="/productos?categoria=Zapatos" class="nav-link">Zapatos</a></li>
+                    </ul>
+                    
+                    <div class="nav-actions">
+                        <form class="search-form" action="/productos" method="GET">
+                            <input type="text" name="q" class="search-input" placeholder="Buscar productos..." value="<%= typeof query !== 'undefined' ? query : '' %>">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                        
+                        <div class="user-menu">
+                            <% if (usuario) { %>
+                                <div class="dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle">
+                                        <i class="fas fa-user"></i> <%= usuario.nombre %>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a href="/mi-cuenta" class="dropdown-item">Mi Cuenta</a>
+                                        <a href="/pedidos" class="dropdown-item">Mis Pedidos</a>
+                                        <div class="dropdown-divider"></div>
+                                        <form action="/logout" method="POST" style="margin: 0;">
+                                            <button type="submit" class="dropdown-item btn-link">Cerrar Sesión</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <a href="/login" class="nav-link">
+                                    <i class="fas fa-user"></i> Ingresar
+                                </a>
+                                <a href="/registro" class="btn btn-primary btn-sm">Registrarse</a>
+                            <% } %>
+                        </div>
+                        
+                        <a href="/carrito" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <% if (typeof carrito !== 'undefined' && carrito.length > 0) { %>
+                                <span class="cart-count"><%= carrito.length %></span>
+                            <% } %>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <%- body %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Tienda</h3>
+                    <ul>
+                        <li><a href="/productos">Todos los Productos</a></li>
+                        <li><a href="/productos?genero=mujer">Mujer</a></li>
+                        <li><a href="/productos?genero=hombre">Hombre</a></li>
+                        <li><a href="/productos?destacado=true">Destacados</a></li>
+                        <li><a href="/ofertas">Ofertas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Atención al Cliente</h3>
+                    <ul>
+                        <li><a href="/contacto">Contacto</a></li>
+                        <li><a href="/ayuda">Centro de Ayuda</a></li>
+                        <li><a href="/envios">Información de Envíos</a></li>
+                        <li><a href="/devoluciones">Devoluciones</a></li>
+                        <li><a href="/tallas">Guía de Tallas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Empresa</h3>
+                    <ul>
+                        <li><a href="/nosotros">Sobre Nosotros</a></li>
+                        <li><a href="/trabajos">Trabajos</a></li>
+                        <li><a href="/prensa">Prensa</a></li>
+                        <li><a href="/sostenibilidad">Sostenibilidad</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                    
+                    <div style="margin-top: 1rem;">
+                        <h4>Newsletter</h4>
+                        <form action="/newsletter" method="POST" style="margin-top: 0.5rem;">
+                            <input type="email" placeholder="Tu email" style="padding: 8px; margin-bottom: 8px; width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                            <button type="submit" class="btn btn-accent btn-sm" style="width: 100%;">Suscribirse</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 MiTienda. Todos los derechos reservados.</p>
+                <p>
+                    <a href="/privacidad">Política de Privacidad</a> | 
+                    <a href="/terminos">Términos y Condiciones</a> | 
+                    <a href="/cookies">Política de Cookies</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/js/main.js"></script>
+    
+    <!-- Optional: Additional scripts per page -->
+    <% if (typeof additionalScripts !== 'undefined') { %>
+        <%- additionalScripts %>
+    <% } %>
+</body>
+</html>
